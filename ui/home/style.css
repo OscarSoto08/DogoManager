@@ -20,7 +20,7 @@ body {
 .header-bg {
   position: relative;
   min-height: 60vh;
-  background: url('img/walking-dog.jpg') center/cover no-repeat;
+  background: url('../../img/walking-dog.jpg') center/cover no-repeat;
   
   filter: brightness(1.2);
 }
