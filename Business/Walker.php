@@ -54,6 +54,30 @@ class Walker extends Person {
         $connection->close();
     }
 
+    public function fetchAllWalkers() {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new WalkerDAO();
+        $connection->query($dao->fetchAll());
+        $walkers = [];
+        while (($row = $connection->fetch_row()) != null) {
+            $walker = new Walker(
+                id: $row[0],
+                name: $row[1],
+                lastName: $row[2],
+                email: $row[3],
+                profilePicture: $row[4],
+                isActive: $row[5],
+                ratePerHour: $row[6],
+                description: $row[7],
+                ratingAvg: $row[8]
+            );
+            array_push($walkers, $walker);
+        }
+        $connection->close();
+        return $walkers;
+    }
+
     public function getProfilePicture() {
         return $this->profilePicture;
     }

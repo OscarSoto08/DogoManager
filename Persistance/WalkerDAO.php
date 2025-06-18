@@ -31,4 +31,8 @@ class WalkerDAO{
     public function retrieve(){
         return "SELECT name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg FROM Walker WHERE id = '{$this -> id}'";
     }
+
+    public function fetchAll(){
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg FROM Walker";
+    }
 }
