@@ -21,14 +21,24 @@ if (PHP_SESSION_NONE === session_status()) {
   session_start();
 }
 
+
 require_once 'Business/Admin.php';
 require_once 'Business/Walker.php';
+require_once 'Business/Owner.php';
+require_once 'Persistance/Connection.php';
 
 $offline_pages = [
   "ui/home/home.php",
+  "ui/home/modalLogin.php",
+  "ui/home/modalSignup.php",
+  "ui/failure/Forbidden403.php",
+  "ui/failure/NotFound404.php",
 ];
 
 $online_pages = [
+  "ui/Admin/homepage.php",
+  "ui/Owner/homepage.php",
+  "ui/Walker/homepage.php",
 ];
 
 
@@ -39,13 +49,13 @@ if(empty($_GET["pid"])) {
   if (in_array($pid, $offline_pages)) {
     include $pid;
   } elseif (in_array($pid, $online_pages)) {
-    if(!isset($_SESSION["idUser"])) {
-      
+    if(!isset($_SESSION["userID"])) {
+      include "ui/home/home.php";
     } else{
       include $pid;
     }
   } else {
-    echo "<h1 class='text-center text-danger'>Page not found</h1>";
+    include "ui/failure/NotFound404.php";
   }
 }
 ?>

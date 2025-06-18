@@ -14,6 +14,11 @@ abstract class Person{
         $this->password = $password;
     }
 
+    abstract public function login();
+    public function logout(){
+        session_destroy();
+        header("Location: ./");
+    }
     public function getId() {
         return $this->id;
     }

@@ -1,4 +1,6 @@
 <?php
+require_once 'Business/Person.php';
+require_once 'Persistance/WalkerDAO.php';
 class Walker extends Person {
     private $profilePicture;
     private $isActive;
@@ -21,6 +23,36 @@ class Walker extends Person {
         return 0.0; // Placeholder return value
     }
 
+    public function login() {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new WalkerDAO(email: $this -> email, password: $this -> password);
+        $connection->query($dao->login());
+        if(($row = $connection -> fetch_row()) != null){ 
+            $this -> id = $row[0];
+            $connection->close();
+            return true; // Login successful
+        }
+        $connection->close();
+        return false; // Login failed
+    }
+
+    public function retrieve(){
+        $connection = new Connection();
+        $connection->open();
+        $dao = new WalkerDAO(id: $this->id);
+        $connection->query($dao->retrieve());
+        $row = $connection -> fetch_row();
+        $this->name = $row[0];
+        $this->lastName = $row[1];
+        $this->email = $row[2];
+        $this->profilePicture = $row[3];
+        $this->isActive = $row[4];
+        $this->ratePerHour = $row[5];
+        $this->description = $row[6];
+        $this->ratingAvg = $row[7];
+        $connection->close();
+    }
 
     public function getProfilePicture() {
         return $this->profilePicture;
@@ -52,4 +84,9 @@ class Walker extends Person {
     public function setRatingAvg($ratingAvg) {
         $this->ratingAvg = $ratingAvg;
     }
+
+    public function __toString() {
+        return "Walker: {$this->name} {$this->lastName}, Email: {$this->email}, Active: {$this->isActive}, Rate: {$this->ratePerHour}, Description: {$this->description}, Rating Avg: {$this->ratingAvg}";
+    }
+
 }

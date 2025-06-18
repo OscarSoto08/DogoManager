@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Person.php';
+require_once 'Persistance/OwnerDAO.php';
 class Owner extends Person{
     private $created_at;
     private $updated_at;
@@ -11,6 +12,33 @@ class Owner extends Person{
         $this->updated_at = $updated_at;
     }
 
+    public function login() {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new OwnerDAO(email: $this -> email, password: $this -> password);
+        $connection->query($dao->login());
+        if(($row = $connection -> fetch_row()) != null){ 
+            $this -> id = $row[0];
+            $connection->close();
+            return true; // Login successful
+        }
+        $connection->close();
+        return false; // Login failed
+    }
+
+    public function retrieve(){
+        $connection = new Connection();
+        $connection->open();
+        $dao = new OwnerDAO(id: $this->id);
+        $connection->query($dao->retrieve());
+        $row = $connection -> fetch_row();
+        $this->name = $row[0];
+        $this->lastName = $row[1];
+        $this->email = $row[2];
+        $this->created_at = $row[3];
+        $this->updated_at = $row[4];
+        $connection->close();
+    }
 
     public function getOwnedPuppies() {
         // This method should return the list of puppies owned by this owner.
@@ -29,5 +57,9 @@ class Owner extends Person{
     }
     public function setUpdatedAt($updated_at) {
         $this->updated_at = $updated_at;
+    }
+
+    public function __toString() {
+        return "Owner: {$this->name} {$this->lastName}, Email: {$this->email}, Created At: {$this->created_at}, Updated At: {$this->updated_at}";
     }
 }
