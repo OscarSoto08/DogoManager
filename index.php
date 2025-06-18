@@ -27,7 +27,7 @@ require_once 'Business/Walker.php';
 require_once 'Business/Owner.php';
 require_once 'Persistance/Connection.php';
 
-$offline_pages = [
+$no_auth_pages = [
   "ui/home/home.php",
   "ui/home/modalLogin.php",
   "ui/home/modalSignup.php",
@@ -35,7 +35,7 @@ $offline_pages = [
   "ui/failure/NotFound404.php",
 ];
 
-$online_pages = [
+$auth_pages = [
   "ui/Admin/homepage.php",
   "ui/Owner/homepage.php",
   "ui/Walker/homepage.php",
@@ -46,9 +46,9 @@ if(empty($_GET["pid"])) {
   include "ui/home/home.php";
 }else{
   $pid = base64_decode($_GET["pid"]);
-  if (in_array($pid, $offline_pages)) {
+  if (in_array($pid, $no_auth_pages)) {
     include $pid;
-  } elseif (in_array($pid, $online_pages)) {
+  } elseif (in_array($pid, $auth_pages)) {
     if(!isset($_SESSION["userID"])) {
       include "ui/home/home.php";
     } else{
