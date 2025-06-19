@@ -42,4 +42,12 @@ class WalkerDAO{
                 WHERE name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%'";
     }
 
+    public function getName() { return $this->name; }
+    public function getLastName() { return $this->lastName; }
+    public function getEmail() { return $this->email; }
+    public function getPassword() { return $this->password; }
+    public function getRatePerHour() { return $this->ratePerHour; }
+    public function getDescription() { return $this->description; }
+
+
 }

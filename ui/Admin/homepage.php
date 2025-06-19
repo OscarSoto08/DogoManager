@@ -122,7 +122,13 @@ body {
                         <i class="fa-solid fa-user-tie me-1"></i> Walkers
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Add Walkers</a></li>
+                        <li>
+                          <a class="dropdown-item" 
+                            href="?pid=<?= base64_encode('ui/Admin/createWalker.php') ?>">
+                            <i class="fa-solid fa-user-plus me-1"></i> Add Walker
+                          </a>
+                        </li>
+
                         <li class="nav-item">
                           <a class="nav-link" href='?pid=<?= base64_encode("ui/Admin/searchWalkers.php") ?>'>
                               <i class="fa-solid fa-search me-1"></i> Search Walker
