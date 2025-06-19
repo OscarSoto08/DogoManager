@@ -35,4 +35,11 @@ class WalkerDAO{
     public function fetchAll(){
         return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg FROM Walker";
     }
+
+    public function search($filter){
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg
+                FROM Walker
+                WHERE name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%'";
+    }
+
 }
