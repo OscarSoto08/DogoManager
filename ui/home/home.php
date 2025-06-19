@@ -61,24 +61,30 @@
       <section id="list-walkers">
         <h2 class="h2 fw-bold" style="font-family:'Poppins',sans-serif">Available Walkers</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4">
+        <?php
+        $walkerObj = new Walker();
+        $walkers = $walkerObj->fetchAllWalkers();
+
+        foreach ($walkers as $walker) {
+        ?>
           <!-- Walker Card -->
           <div class="col">
             <div class="card border-0 rounded-3 shadow-sm overflow-hidden h-100">
               <img
-                src="https://via.placeholder.com/350x200"
+                src="<?= $walker -> getProfilePicture() ?? "img/profilePicture.jpg"?>"
                 class="card-img-top"
                 style="height: 200px; object-fit: cover;"
-                alt="Photo of Juan Pérez walker"
-              >
+                alt="Photo of <?= $walker -> getName() ?> walker">
               <div class="card-body text-center">
-                <h5 class="card-title fw-bold">Juan Pérez</h5>
-                <p class="card-text text-muted mb-2">Rate: $10 / hour</p>
+                <h5 class="card-title fw-bold"> <?= $walker -> getName() ?></h5>
+                <p class="card-text text-muted mb-2">Rate: $' <?= $walker -> getRatePerHour() ?> ' / hour</p>
                 <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">
                   <i class="fa-solid fa-user-lines me-1"></i> View Profile
                 </a>
-              </div>
             </div>
-          </div>
+            </div>
+            </div>
+        <?php } ?>
         </div>
       </section>
     </main>
