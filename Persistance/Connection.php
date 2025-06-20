@@ -26,4 +26,9 @@ class Connection {
     public function rows(){
         return $this -> result -> num_rows;
     }
+
+    public function affectedRows(){
+        return $this->connection->affected_rows;
+    }
+
 }

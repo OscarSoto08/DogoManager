@@ -8,15 +8,41 @@ if (isset($_GET["filter"])) {
 
     if (count($result) > 0) {
         echo "<table class='table table-striped'>";
-        echo "<thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Rate</th><th>Rating</th></tr></thead>";
+        echo "<thead><tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Rate</th>
+                <th>Rating</th>
+                <th>Status</th>     <!-- Nueva columna de estado -->
+                <th>Action</th>     <!-- Nueva columna de acción -->
+              </tr></thead>";
         echo "<tbody>";
         foreach ($result as $w) {
+            $active    = $w->isActive() ? 1 : 0;
+            $btnClass  = $active ? 'btn-danger'  : 'btn-success';
+            $btnLabel  = $active ? 'Disable'     : 'Enable';
+            $statusStr = $active ? 'Active'      : 'Inactive';
+
             echo "<tr>";
-            echo "<td>" . $w->getId() . "</td>";
-            echo "<td>" . $w->getName() . " " . $w->getLastName() . "</td>";
-            echo "<td>" . $w->getEmail() . "</td>";
+            echo "<td>{$w->getId()}</td>";
+            echo "<td>{$w->getName()} {$w->getLastName()}</td>";
+            echo "<td>{$w->getEmail()}</td>";
             echo "<td>$" . number_format($w->getRatePerHour(), 2) . "</td>";
             echo "<td>" . number_format($w->getRatingAvg(), 2) . "</td>";
+
+            // Columna estado
+            echo "<td><span class='badge " . ($active ? "bg-success" : "bg-secondary") . "'>$statusStr</span></td>";
+
+            // Columna acción con botón
+            echo "<td>
+                    <button
+                      class='btn btn-sm btn-status {$btnClass}'
+                      data-id='{$w->getId()}'
+                      data-active='{$active}'>
+                      {$btnLabel}
+                    </button>
+                  </td>";
             echo "</tr>";
         }
         echo "</tbody></table>";

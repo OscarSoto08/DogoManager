@@ -42,6 +42,15 @@ class WalkerDAO{
                 WHERE name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%'";
     }
 
+    public function updateStatus(){
+    return "
+      UPDATE Walker
+      SET is_active = '{$this->isActive}'
+      WHERE id = '{$this->id}'
+    ";
+}
+
+
     public function getName() { return $this->name; }
     public function getLastName() { return $this->lastName; }
     public function getEmail() { return $this->email; }
