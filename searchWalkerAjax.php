@@ -31,10 +31,10 @@ if (isset($_GET["filter"])) {
             echo "<td>$" . number_format($w->getRatePerHour(), 2) . "</td>";
             echo "<td>" . number_format($w->getRatingAvg(), 2) . "</td>";
 
-            // Columna estado
+            // Status column
             echo "<td><span class='badge " . ($active ? "bg-success" : "bg-secondary") . "'>$statusStr</span></td>";
 
-            // Columna acción con botón
+            // Action column with button
             echo "<td>
                     <button
                       class='btn btn-sm btn-status {$btnClass}'
