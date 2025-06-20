@@ -1,0 +1,71 @@
+<?php
+if($_SESSION["role"] != "Admin"){
+    header("Location: ?pid=" . base64_encode("ui/failure/Forbidden403.php"));
+    exit();
+}
+$admin = new Admin($_SESSION["userID"]);
+$admin -> retrieve();
+
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    if(isset($_POST["logout"])){
+        $admin -> logout();
+    }
+}
+?>
+
+<?php
+require_once __DIR__ . '/navbarAdmin.php'; // ajusta la ruta si el archivo está en otro directorio
+?>
+<!-- ========= Walkers Overview (visible to Admin) ========= -->
+<section id="admin-walkers" class="mt-5">
+    
+  <h2 class="h2 fw-bold" style="font-family:'Poppins',sans-serif">All Walkers</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+  <?php
+    require_once 'Business/Walker.php';
+
+    $walkerObj = new Walker();
+    // Get all walkers from database
+    $walkers = $walkerObj->fetchAllWalkers();
+
+    foreach ($walkers as $walker):
+        $active = $walker->isActive() ? 1 : 0;
+        $badgeClass = $active ? 'bg-success' : 'bg-secondary';
+        $badgeText  = $active ? 'Active' : 'Inactive';
+        $btnClass   = $active ? 'btn-danger' : 'btn-success';
+        $btnLabel   = $active ? 'Disable' : 'Enable';
+  ?>
+    <!-- Walker Card -->
+    <div class="col">
+      <div class="card border-0 rounded-3 shadow-sm overflow-hidden h-100">
+        <!-- Profile Picture -->
+        <img
+          src="<?= $walker->getProfilePicture() ?? 'img/profilePicture.jpg' ?>"
+          class="card-img-top"
+          style="height: 200px; object-fit: cover;"
+          alt="Photo of <?= $walker->getName() ?>">
+
+        <div class="card-body text-center">
+          <!-- Name -->
+          <h5 class="card-title fw-bold"><?= $walker->getName() . ' ' . $walker->getLastName() ?></h5>
+
+          <!-- Hourly Rate -->
+          <p class="text-muted mb-1">Rate: $<?= number_format($walker->getRatePerHour(), 2) ?> / hour</p>
+
+          <!-- Status Badge -->
+          <span class="badge <?= $badgeClass ?> mb-2"><?= $badgeText ?></span><br>
+
+          <!-- Toggle Status Button -->
+          <button
+            class="btn btn-sm <?= $btnClass ?> btn-status rounded-pill"
+            data-id="<?= $walker->getId() ?>"
+            data-active="<?= $active ?>">
+            <?= $btnLabel ?>
+          </button>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+  </div>
+</section>

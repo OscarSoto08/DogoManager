@@ -43,6 +43,7 @@ $auth_pages = [
   "ui/Walker/homepage.php",
   "ui/Admin/searchWalkers.php",
   "ui/Admin/createWalker.php",
+  "ui/Admin/viewAllWalkers.php",
 ];
 
 
