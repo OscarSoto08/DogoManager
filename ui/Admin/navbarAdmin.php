@@ -106,6 +106,7 @@ body {
 
                 <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-chart-bar me-1"></i> View Stats</a></li>
                 <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-shoe-prints me-1"></i> View Walks</a></li>
+                <li class="nav-item"><a class="nav-link" href='?pid=<?= base64_encode("ui/Admin/viewBreeds.php") ?>'><i class="fa-solid fa-paw"></i> View Breeds</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -119,11 +120,12 @@ body {
                           </a>
                         </li>
 
-                        <li class="nav-item">
-                          <a class="nav-link" href='?pid=<?= base64_encode("ui/Admin/searchWalkers.php") ?>'>
-                              <i class="fa-solid fa-search me-1"></i> Search Walker
-                          </a>
+                        <li>
+                        <a class="dropdown-item" href='?pid=<?= base64_encode("ui/Admin/searchWalkers.php") ?>'>
+                            <i class="fa-solid fa-search me-1"></i> Search Walker
+                        </a>
                         </li>
+
 
                         <li>
                             <a class="dropdown-item" href='?pid=<?= base64_encode("ui/Admin/viewAllWalkers.php") ?>'>
