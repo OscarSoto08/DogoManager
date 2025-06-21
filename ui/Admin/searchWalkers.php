@@ -15,26 +15,28 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 <body>
 <?php require_once __DIR__ . '/navbarAdmin.php'; ?>
 
+<div class="container-fluid mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
 
+      <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+          <h4 class="fw-bold text-primary">Search Walker</h4>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="filter" placeholder="Name or lastname of walker" autocomplete="off">
+        </div>
+      </div>
 
-<div class="container mt-3">
-    <div class="card">
-        <div class="card-header">
-            <h4 class="card-title">Search Walker</h4>
-        </div>
-        <div class="card-body">
-            <div class="container mb-3">
-                <div class="row">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control" id="filter" placeholder="Name or lastname of walker" autocomplete="off" />
-                    </div>
-                </div>
-            </div>
-            <div id="result"></div>
-        </div>
+      <div class="table-responsive shadow-sm rounded border">
+        <div id="result"></div>
+      </div>
+
     </div>
+  </div>
 </div>
+
+
 <div id="status-alert" class="alert d-none" role="alert"></div>
 
 <script>

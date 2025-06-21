@@ -14,9 +14,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 ?>
 
 <?php
-require_once __DIR__ . '/navbarAdmin.php'; // ajusta la ruta si el archivo está en otro directorio
+require_once __DIR__ . '/navbarAdmin.php';
 ?>
-<!-- ========= Walkers Overview (visible to Admin) ========= -->
+
 <section id="admin-walkers" class="mt-5">
     
   <h2 class="h2 fw-bold" style="font-family:'Poppins',sans-serif">All Walkers</h2>
@@ -36,6 +36,7 @@ require_once __DIR__ . '/navbarAdmin.php'; // ajusta la ruta si el archivo está
         $btnClass   = $active ? 'btn-danger' : 'btn-success';
         $btnLabel   = $active ? 'Disable' : 'Enable';
   ?>
+    
     <!-- Walker Card -->
     <div class="col">
       <div class="card border-0 rounded-3 shadow-sm overflow-hidden h-100">
@@ -63,6 +64,10 @@ require_once __DIR__ . '/navbarAdmin.php'; // ajusta la ruta si el archivo está
             data-active="<?= $active ?>">
             <?= $btnLabel ?>
           </button>
+          <a href='?pid=<?= base64_encode("ui/Admin/editWalker.php") ?>&id=<?= $walker->getId() ?>'
+            class="btn btn-outline-primary btn-sm rounded-pill mt-2">
+            <i class="fa-solid fa-pen-to-square me-1"></i> Update
+            </a>
         </div>
       </div>
     </div>

@@ -43,11 +43,21 @@ class WalkerDAO{
     }
 
     public function updateStatus(){
-    return "
-      UPDATE Walker
-      SET is_active = '{$this->isActive}'
-      WHERE id = '{$this->id}'
-    ";
+        return "
+        UPDATE Walker
+        SET is_active = '{$this->isActive}'
+        WHERE id = '{$this->id}'
+        ";
+    }
+
+public function update(): string {
+    return "UPDATE Walker SET
+                name          = '" . $this->name . "',
+                last_name     = '" . $this->lastName . "',   -- snake_case
+                email         = '" . $this->email . "',
+                rate_per_hour = "  . $this->ratePerHour . ", -- columna real
+                description   = '" . $this->description . "'
+            WHERE id = " . $this->id;
 }
 
 

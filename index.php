@@ -44,6 +44,8 @@ $auth_pages = [
   "ui/Admin/searchWalkers.php",
   "ui/Admin/createWalker.php",
   "ui/Admin/viewAllWalkers.php",
+  "ui/Admin/editWalker.php",
+  "ui/Admin/editWalkerAjax.php",
 ];
 
 

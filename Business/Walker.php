@@ -119,6 +119,25 @@ class Walker extends Person {
         return $affected > 0;
     }
 
+    public function update(): bool {
+        $connection = new Connection();
+        $connection->open();
+
+        $dao = new WalkerDAO(
+            id: $this->id,
+            name: $this->name,
+            lastName: $this->lastName,
+            email: $this->email,
+            ratePerHour: $this->ratePerHour,
+            description: $this->description
+        );
+
+        $connection->query($dao->update());
+        $affected = $connection->affectedRows();
+        $connection->close();
+
+        return $affected > 0;
+    }
 
 
     public function getProfilePicture() {
