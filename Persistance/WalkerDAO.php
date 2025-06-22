@@ -36,6 +36,18 @@ class WalkerDAO{
         return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg FROM Walker";
     }
 
+    public function fetchAllActive() {
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg 
+                FROM Walker
+                WHERE is_active = 1";
+    }
+
+    public function searchActive($filter) {
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg
+                FROM Walker
+                WHERE is_active = 1 AND (name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%')";
+    }
+
     public function search($filter){
         return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg
                 FROM Walker

@@ -42,6 +42,7 @@ $no_auth_pages = [
 $auth_pages = [
   "ui/Admin/homepage.php",
   "ui/Owner/homepage.php",
+  "ui/Owner/chooseWalker.php",
   "ui/Walker/homepage.php",
   "ui/Admin/searchWalkers.php",
   "ui/Admin/createWalker.php",

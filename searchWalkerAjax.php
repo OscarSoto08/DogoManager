@@ -14,8 +14,8 @@ if (isset($_GET["filter"])) {
                 <th>Email</th>
                 <th>Rate</th>
                 <th>Rating</th>
-                <th>Status</th>     <!-- Nueva columna de estado -->
-                <th>Action</th>     <!-- Nueva columna de acción -->
+                <th>Status</th>     
+                <th>Action</th>    
               </tr></thead>";
         echo "<tbody>";
         foreach ($result as $w) {

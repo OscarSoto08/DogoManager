@@ -17,6 +17,33 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 require_once __DIR__ . '/navbarAdmin.php';
 ?>
 
+<script>
+$(document).on("click", ".btn-status", function () {
+  const $btn   = $(this);
+  const id     = $btn.data("id");
+  const active = $btn.data("active");          // 1 ó 0
+  const newVal = active ? 0 : 1;               // ← invertir aquí
+  const $badge = $btn.closest(".card-body").find(".badge");
+
+  $.post("ui/Admin/toggleWalkerStatus.php", { id, isActive: newVal }, function (resp) {
+      if (resp.success) {
+          // Actualiza dataset para el próximo clic
+          $btn.data("active", newVal);
+
+          // Cambia estilos y texto de botón/badge
+          $btn.toggleClass("btn-danger btn-success")
+              .text(newVal ? "Disable" : "Enable");
+
+          $badge.toggleClass("bg-success bg-secondary")
+                .text(newVal ? "Active" : "Inactive");
+      } else {
+          alert("Error toggling walker");
+      }
+  }, "json").fail(() => alert("AJAX error"));
+});
+</script>
+
+
 <section id="admin-walkers" class="mt-5">
     
   <h2 class="h2 fw-bold" style="font-family:'Poppins',sans-serif">All Walkers</h2>
