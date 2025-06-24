@@ -1,3 +1,40 @@
+<?php
+$user = null;
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $name = $_POST['name'] ?? '';
+  $lastName = $_POST['lastName'] ?? '';
+  $email = $_POST['email'] ?? '';
+  $password = md5($_POST['password']) ?? '';
+
+  if(empty($name) || empty($lastName) || empty($email) || empty($password)) {
+    $_SESSION['toast'] = [
+        'type' => 'danger',
+        'message' => 'Please fill in all fields.'
+    ];
+    header("Location: ./");
+    exit();
+  } else {
+    $user = new Owner(name: $name, lastName: $lastName, email: $email, password: $password, created_at: date("Y-m-d H:i:s"));
+    if($user->create()){
+      $_SESSION['toast'] = [
+          'type' => 'success',
+          'message' => 'Account created successfully! You can now log in.'
+      ];
+      header("Location: ./");
+      exit();
+    } else {
+      $_SESSION['toast'] = [
+          'type' => 'danger',
+          'message' => 'Error creating account.'
+      ];
+      header("Location: ./");
+      exit();
+    }
+  } 
+}
+
+?>
 <!-- Modal Sign Up -->
 <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -7,24 +44,23 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="<?= "?pid=" . base64_encode("ui/home/modalSignUp.php")?>" method="POST">
           <div class="mb-3">
             <label for="signupName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="signupName">
+            <input type="text" class="form-control" id="signupName" name="name">
           </div>
           <div class="mb-3">
             <label for="signupLastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="signupLastName">
+            <input type="text" class="form-control" id="signupLastName" name="lastName">
           </div>
           <div class="mb-3">
             <label for="signupEmail" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="signupEmail">
+            <input type="email" class="form-control" id="signupEmail" name="email">
           </div>
           <div class="mb-3">
             <label for="signupPassword" class="form-label">Password</label>
-            <input type="password" class="form-control" id="signupPassword">
+            <input type="password" class="form-control" id="signupPassword" name="password">
           </div>
-          
           <button type="submit" class="btn btn-primary w-100">Sign Up</button>
         </form>
       </div>

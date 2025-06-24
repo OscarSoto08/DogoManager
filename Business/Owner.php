@@ -40,6 +40,19 @@ class Owner extends Person{
         $connection->close();
     }
 
+    public function create() {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new OwnerDAO(name: $this->name, lastName: $this->lastName, email: $this->email, password: $this->password, created_at: $this->created_at);
+        $connection->query($dao->create());
+        if (($this->id = $connection->getLastInsertId()) != null) {
+            $connection->close();
+            return true; // Creation successful
+        }
+        $connection->close();
+        return false; // Creation failed
+    }
+
     public function getOwnedPuppies() {
         // This method should return the list of puppies owned by this owner.
         // Implementation would depend on how to manage the relationship between owners and puppies.

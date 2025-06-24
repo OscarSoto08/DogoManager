@@ -5,14 +5,13 @@ if($_SESSION["role"] != "Walker"){
 }
 $walker = new Walker($_SESSION["userID"]);
 $walker -> retrieve();
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    if(isset($_POST["logout"])){
+if($_SERVER["REQUEST_METHOD"] === "GET"){
+    if(isset($_GET["session"]) && $_GET["session"] === "close"){
         $walker -> logout();
     }
 }
 ?>
 <body>
     <h1><?= $walker -> __toString()?></h1>
-    <form action="<?= "?pid=" . base64_encode("ui/Walker/homepage.php")?>" method="POST">
-        <button type="submit" class="btn btn-primary" name="logout">Log-out</button>
+    <a href="<?= "?pid=" . base64_encode("ui/Walker/homepage.php")?>&session=close" type="submit" class="btn btn-primary" name="logout">Log-out</a>
 </body>

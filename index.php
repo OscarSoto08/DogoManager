@@ -30,7 +30,7 @@ require_once 'Persistance/Connection.php';
 $no_auth_pages = [
   "ui/home/home.php",
   "ui/home/modalLogin.php",
-  "ui/home/modalSignup.php",
+  "ui/home/modalSignUp.php",
   "ui/failure/Forbidden403.php",
   "ui/failure/NotFound404.php",
 ];

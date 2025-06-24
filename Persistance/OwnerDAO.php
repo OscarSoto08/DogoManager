@@ -25,4 +25,8 @@ class OwnerDAO{
     public function retrieve(){
         return "SELECT name, last_name, email, created_at, updated_at FROM Owner WHERE id = '{$this -> id}'";
     }
+
+    public function create(){
+        return "INSERT INTO Owner (name, last_name, email, password, created_at) VALUES ('{$this->name}', '{$this->lastName}', '{$this->email}', '{$this->password}', '{$this->created_at}')";
+    }
 }

@@ -81,8 +81,8 @@
                 <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">
                   <i class="fa-solid fa-user-lines me-1"></i> View Profile
                 </a>
-            </div>
-            </div>
+               </div>
+              </div>
             </div>
         <?php } ?>
         </div>
