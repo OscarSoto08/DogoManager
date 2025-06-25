@@ -17,11 +17,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   } else {
     $user = new Owner(name: $name, lastName: $lastName, email: $email, password: $password, created_at: date("Y-m-d H:i:s"));
     if($user->create()){
+      $token = new VerifyCode(owner: $user);
+      $code = $token->insert();
       $_SESSION['toast'] = [
           'type' => 'success',
           'message' => 'Account created successfully! You can now log in.'
       ];
-      header("Location: ./");
+      // Send verification email
+      $mail = new Mail($user, $code);
+      // $mail->send();
+      $_SESSION['verificationCode'] = $code; // Store the code in session for later verification
+      header("Location: ?pid=" . base64_encode("ui/home/verifyCode.php"));
       exit();
     } else {
       $_SESSION['toast'] = [

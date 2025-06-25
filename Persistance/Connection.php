@@ -27,7 +27,7 @@ class Connection {
         return $this -> result -> num_rows;
     }
 
-    public function getLastInsertId(){
+    public function getLastInsertId(): int|string{
         return $this -> connection -> insert_id;
     }
 }
