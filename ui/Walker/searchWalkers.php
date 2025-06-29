@@ -13,8 +13,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 }
 ?>
 <body>
-<?php require_once __DIR__ . '/navbarAdmin.php'; ?>
-
+<?php 
+require_once "ui/Admin/navbarAdmin.php";
+?>
 <div class="container-fluid mt-4">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">

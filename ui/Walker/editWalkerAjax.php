@@ -27,13 +27,13 @@ if (
 
 
 if ($walker->update()) {
-    header('Location: ?pid=' . base64_encode('ui/Admin/viewAllWalkers.php') . '&status=success');
+    header('Location: ?pid=' . base64_encode('ui/Walker/viewAllWalkers.php') . '&status=success');
 } else {
-    header('Location: ?pid=' . base64_encode('ui/Admin/viewAllWalkers.php') . '&status=fail');
+    header('Location: ?pid=' . base64_encode('ui/Walker/viewAllWalkers.php') . '&status=fail');
 }
 exit;
 
 }
 
-header('Location: ?pid=' . base64_encode('ui/Admin/viewAllWalkers.php') . '&status=success');
+header('Location: ?pid=' . base64_encode('ui/Walker/viewAllWalkers.php') . '&status=success');
 exit;

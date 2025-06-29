@@ -14,13 +14,13 @@ if (isset($_POST['id'], $_POST['name'], $_POST['size'])) {
     $breed = new Breed($id, $name, $size);
 
     if ($breed->update()) {
-        header("Location: ?pid=" . base64_encode("ui/Admin/viewBreeds.php") . "&status=success");
+        header("Location: ?pid=" . base64_encode("ui/Breed/viewBreeds.php") . "&status=success");
     } else {
-        header("Location: ?pid=" . base64_encode("ui/Admin/viewBreeds.php") . "&status=fail");
+        header("Location: ?pid=" . base64_encode("ui/Breed/viewBreeds.php") . "&status=fail");
     }
     exit;
 }
 
 
-header("Location: ?pid=" . base64_encode("ui/Admin/viewBreeds.php") . "&status=invalid");
+header("Location: ?pid=" . base64_encode("ui/Breed/viewBreeds.php") . "&status=invalid");
 exit;

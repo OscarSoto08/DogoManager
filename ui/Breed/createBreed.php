@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 }
 ?>
 <?php
-require_once __DIR__ . '/navbarAdmin.php';
+require_once "ui/Admin/navbarAdmin.php";
 ?>
 <?php
 require_once 'Business/Breed.php';
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
           <?php if ($success === true): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
               Breed added successfully!
-              <a href="?pid=<?= base64_encode("ui/Admin/viewBreeds.php") ?>" class="btn btn-sm btn-link">Go back</a>
+              <a href="?pid=<?= base64_encode("ui/Breed/viewBreeds.php") ?>" class="btn btn-sm btn-link">Go back</a>
               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
           <?php elseif ($success === false): ?>

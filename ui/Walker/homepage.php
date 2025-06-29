@@ -3,6 +3,7 @@ if($_SESSION["role"] != "Walker"){
     header("Location: ?pid=". base64_encode("ui/failure/Forbidden403.php"));
     exit();
 }
+
 $walker = new Walker($_SESSION["userID"]);
 $walker -> retrieve();
 if($_SERVER["REQUEST_METHOD"] === "GET"){
@@ -124,11 +125,7 @@ body {
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                         <li>
-                            <form action="<?= "?pid=" . base64_encode("ui/Walker/homepage.php") ?>" method="POST" style="margin: 0;">
-                                <button type="submit" class="dropdown-item" name="logout" style="border: none; background: none;">
-                                    Log Out
-                                </button>
-                            </form>
+                            <a class="dropdown-item" href="<?= "?pid=".base64_encode("ui/Walker/homepage.php"). "&session=close"?> " style="border: none; background: none;">Log Out</a>
                         </li>
                     </ul>
                 </li>

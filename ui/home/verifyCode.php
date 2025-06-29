@@ -35,10 +35,6 @@ if (PHP_SESSION_NONE === session_status()) {
         </button>
     </form>
 
-    <div class="mt-4 pt-3 border-top">
-        <p class="text-muted mb-1">¿No recibiste el código?</p>
-        <button type="button" class="btn btn-link p-0" id="resendBtn">Reenviar código</button>
-    </div>
 </div>
 <script>
 $(document).ready(function () {
@@ -158,27 +154,6 @@ $(document).ready(function () {
                 $spinner.addClass('d-none');
             }
         }, 1500);
-    });
-
-    function startResendCountdown() {
-        resendCountdown = 60;
-        $resendBtn.prop('disabled', true);
-        resendInterval = setInterval(() => {
-            resendCountdown--;
-            $resendBtn.html(`Reenviar código <span class="text-warning fw-bold">(${resendCountdown}s)</span>`);
-            if (resendCountdown <= 0) {
-                clearInterval(resendInterval);
-                $resendBtn.prop('disabled', false).html('Reenviar código');
-            }
-        }, 1000);
-    }
-
-    $resendBtn.on('click', function () {
-        updateStatus('success', 'Código reenviado a tu correo electrónico', 'fas fa-paper-plane');
-        startResendCountdown();
-        $inputs.val('').removeClass('is-valid is-invalid');
-        $inputs.first().focus();
-        validateInputs();
     });
 
     // Inicial

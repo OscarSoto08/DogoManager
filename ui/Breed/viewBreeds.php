@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 }
 ?>
 <?php
-require_once __DIR__ . '/navbarAdmin.php';
+require_once "ui/Admin/navbarAdmin.php";
 ?>
 
 <?php
@@ -28,7 +28,7 @@ $breeds = $breed->getAll();
     <!-- Modal -->
   <div class="modal fade" id="editBreedModal" tabindex="-1" aria-labelledby="editBreedLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <form method="POST" action="?pid=<?= base64_encode("ui/Admin/editBreedAjax.php") ?>" class="modal-content">
+      <form method="POST" action="?pid=<?= base64_encode("ui/Breed/editBreedAjax.php") ?>" class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editBreedLabel">Edit Breed</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -75,7 +75,7 @@ $breeds = $breed->getAll();
 <?php endif; ?>
 
         <!-- (botón futuro para agregar raza) -->
-        <a href="?pid=<?= base64_encode("ui/Admin/createBreed.php") ?>" class="btn btn-primary btn-sm">
+        <a href="?pid=<?= base64_encode("ui/Breed/createBreed.php") ?>" class="btn btn-primary btn-sm">
           <i class="fas fa-plus"></i> Add Breed
         </a>
       </div>
@@ -108,7 +108,7 @@ $breeds = $breed->getAll();
                     <i class="fas fa-edit"></i> Edit
                   </button>
 
-                  <form method="POST" action="?pid=<?= base64_encode("ui/Admin/deactivateBreed.php") ?>" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this breed?')">
+                  <form method="POST" action="?pid=<?= base64_encode("ui/Breed/deactivateBreed.php") ?>" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this breed?')">
                     <input type="hidden" name="id" value="<?= $b->getId() ?>">
                     <button type="submit" class="btn btn-sm btn-outline-danger">
                       <i class="fas fa-trash-alt"></i> Delete

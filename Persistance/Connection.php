@@ -4,7 +4,7 @@ class Connection {
     private $result;
 
     public function open(){
-        $this -> connection = new mysqli("localhost", "root", "", "dogomanager");
+        $this -> connection = new mysqli("localhost", "root", "123456", "dm");
     }
     public function close(){
         $this -> connection->close();

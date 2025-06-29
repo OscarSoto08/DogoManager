@@ -11,7 +11,7 @@ $admin -> retrieve();
 ?>
 
 <?php
-require_once __DIR__ . '/navbarAdmin.php';
+require_once "ui/Admin/navbarAdmin.php";
 ?>
 
 <?php
@@ -31,12 +31,9 @@ if (isset($_GET["id"])) {
 }
 ?>
 
-<?php
-require_once __DIR__ . '/navbarAdmin.php'; 
-?>
 <div class="container mt-5">
   <h2>Edit Walker</h2>
-  <form method="POST" action="?pid=<?= base64_encode("ui/Admin/editWalkerAjax.php") ?>">
+  <form method="POST" action="?pid=<?= base64_encode("ui/Walker/editWalkerAjax.php") ?>">
     <input type="hidden" name="id" value="<?= $walker->getId() ?>">
     
     <div class="mb-3">

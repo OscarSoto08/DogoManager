@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 ?>
 
 <?php
-require_once __DIR__ . '/navbarAdmin.php';
+require_once "ui/Admin/navbarAdmin.php";
 ?>
 
 <script>
@@ -25,7 +25,7 @@ $(document).on("click", ".btn-status", function () {
   const newVal = active ? 0 : 1;               // ← invertir aquí
   const $badge = $btn.closest(".card-body").find(".badge");
 
-  $.post("ui/Admin/toggleWalkerStatus.php", { id, isActive: newVal }, function (resp) {
+  $.post("ui/Walker/toggleWalkerStatus.php", { id, isActive: newVal }, function (resp) {
       if (resp.success) {
           // Actualiza dataset para el próximo clic
           $btn.data("active", newVal);
@@ -69,10 +69,10 @@ $(document).on("click", ".btn-status", function () {
       <div class="card border-0 rounded-3 shadow-sm overflow-hidden h-100">
         <!-- Profile Picture -->
         <img
-          src="<?= $walker->getProfilePicture() ?? 'img/profilePicture.jpg' ?>"
+          src="<?= $walker->getProfilePicture() ?? "img/profilePicture.jpg" ?>"
           class="card-img-top"
           style="height: 200px; object-fit: cover;"
-          alt="Photo of <?= $walker->getName() ?>">
+          alt="Photo of <?= $walker->getName() . " " . $walker->getLastName()?>" />
 
         <div class="card-body text-center">
           <!-- Name -->
@@ -91,7 +91,7 @@ $(document).on("click", ".btn-status", function () {
             data-active="<?= $active ?>">
             <?= $btnLabel ?>
           </button>
-          <a href='?pid=<?= base64_encode("ui/Admin/editWalker.php") ?>&id=<?= $walker->getId() ?>'
+          <a href='?pid=<?= base64_encode("ui/Walker/editWalker.php") ?>&id=<?= $walker->getId() ?>'
             class="btn btn-outline-primary btn-sm rounded-pill mt-2">
             <i class="fa-solid fa-pen-to-square me-1"></i> Update
             </a>

@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       ];
       // Send verification email
       $mail = new Mail($user, $code);
-      // $mail->send();
+      $mail->send();
       $_SESSION['verificationCode'] = $code; // Store the code in session for later verification
       header("Location: ?pid=" . base64_encode("ui/home/verifyCode.php"));
       exit();

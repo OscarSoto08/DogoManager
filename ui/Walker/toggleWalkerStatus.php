@@ -13,7 +13,7 @@ require_once 'Business/Walker.php';
 // Check if both required POST parameters are present
 if (isset($_POST['id'], $_POST['isActive'])) {
     $id       = intval($_POST['id']);
-    $newState = ($_POST['isActive'] == '1');
+    $newState = $_POST['isActive'];
 
     $walker = new Walker(id: $id);
     $walker->setActive($newState);

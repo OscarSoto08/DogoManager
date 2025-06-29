@@ -7,10 +7,7 @@ if ($_SESSION['role'] !== 'Admin') {
 
 $admin = new Admin($_SESSION['userID']);
 $admin->retrieve();
-?>
-
-<?php
-require_once __DIR__ . '/navbarAdmin.php'; 
+require_once "ui/Admin/navbarAdmin.php";
 ?>
 <div class="container mt-4">
   <h3><i class="fa-solid fa-user-plus me-2"></i> Add New Walker</h3>

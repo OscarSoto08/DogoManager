@@ -1,4 +1,20 @@
-    <style>
+<nav class="navbar">
+    <div class="logo">
+        🐕 PawWalk
+    </div>
+    
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="#">My Dogs</a></li>
+        <li><a href="#">Book Walk</a></li>
+        <li><a href="#">History</a></li>
+        <li><a href="#">Invoices</a></li>
+    </ul>
+    
+    <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+    <a class="btn btn-danger" name="logout" href="<?= "?pid=" . base64_encode("ui/Owner/homepage.php"). "&sesion=close"?>">Logout</a>
+</nav>
+<style>
 * {
     margin: 0;
     padding: 0;
@@ -240,19 +256,3 @@ body {
 }
 </style>
     
-    <nav class="navbar">
-        <div class="logo">
-            🐕 PawWalk
-        </div>
-        
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#" class="active">Dashboard</a></li>
-            <li><a href="#">My Dogs</a></li>
-            <li><a href="#">Book Walk</a></li>
-            <li><a href="#">History</a></li>
-            <li><a href="#">Invoices</a></li>
-        </ul>
-        
-        <div class="mobile-menu" onclick="toggleMenu()">☰</div>
-        <a class="btn btn-danger" name="logout" href="<?= "?pid=" . base64_encode("ui/Owner/homepage.php"). "&sesion=close"?>">Logout</a>
-    </nav>
