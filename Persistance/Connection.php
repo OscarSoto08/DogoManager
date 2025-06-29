@@ -4,7 +4,7 @@ class Connection {
     private $result;
 
     public function open(){
-        $this -> connection = new mysqli("localhost", "root", "123456", "dogomanager");
+        $this -> connection = new mysqli("localhost", "root", "", "dogomanager");
     }
     public function close(){
         $this -> connection->close();
@@ -30,4 +30,9 @@ class Connection {
     public function getLastInsertId(): int|string{
         return $this -> connection -> insert_id;
     }
+
+    public function affectedRows(){
+        return $this->connection->affected_rows;
+    }
+
 }

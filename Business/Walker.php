@@ -1,6 +1,8 @@
 <?php
-require_once 'Business/Person.php';
-require_once 'Persistance/WalkerDAO.php';
+require_once __DIR__ . '/Person.php';
+require_once __DIR__ . '/../Persistance/WalkerDAO.php';
+require_once __DIR__ . '/../Persistance/Connection.php';
+
 class Walker extends Person {
     private $profilePicture;
     private $isActive;
@@ -53,7 +55,7 @@ class Walker extends Person {
         $this->ratingAvg = $row[7];
         $connection->close();
     }
-
+//para buscar walkers con admin
     public function fetchAllWalkers() {
         $connection = new Connection();
         $connection->open();
@@ -77,10 +79,122 @@ class Walker extends Person {
         $connection->close();
         return $walkers;
     }
+//para buscar walkers con owner
+    public function fetchAllActive() {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new WalkerDAO();
+        $connection->query($dao->fetchAllActive());
+
+        $walkers = [];
+        while (($row = $connection->fetch_row()) != null) {
+            $walker = new Walker(
+                id: $row[0],
+                name: $row[1],
+                lastName: $row[2],
+                email: $row[3],
+                profilePicture: $row[4],
+                isActive: $row[5],
+                ratePerHour: $row[6],
+                description: $row[7],
+                ratingAvg: $row[8]
+            );
+            $walkers[] = $walker;
+        }
+        $connection->close();
+        return $walkers;
+    }
+
+    public function searchActiveWalkers($filter) {
+    $connection = new Connection();
+    $connection->open();
+    $dao = new WalkerDAO();
+    $connection->query($dao->searchActive($filter));
+
+    $walkers = [];
+    while (($row = $connection->fetch_row()) != null) {
+        $walker = new Walker(
+            id: $row[0],
+            name: $row[1],
+            lastName: $row[2],
+            email: $row[3],
+            profilePicture: $row[4],
+            isActive: $row[5],
+            ratePerHour: $row[6],
+            description: $row[7],
+            ratingAvg: $row[8]
+        );
+        $walkers[] = $walker;
+    }
+    $connection->close();
+    return $walkers;
+}
+
+    public function searchWalkers($filter) {
+        $connection = new Connection();
+        $connection->open();
+        $dao = new WalkerDAO();
+        $connection->query($dao->search($filter));
+        $walkers = [];
+        while (($row = $connection->fetch_row()) != null) {
+            $walker = new Walker(
+                id: $row[0],
+                name: $row[1],
+                lastName: $row[2],
+                email: $row[3],
+                profilePicture: $row[4],
+                isActive: $row[5],
+                ratePerHour: $row[6],
+                description: $row[7],
+                ratingAvg: $row[8]
+            );
+            array_push($walkers, $walker);
+        }
+        $connection->close();
+        return $walkers;
+    }
+
+    public function updateStatus(){
+        $conn = new Connection();
+        $conn->open();
+
+        $dao = new WalkerDAO(
+            id:        $this->id,
+            isActive:  $this->isActive
+        );
+
+        $conn->query($dao->updateStatus());
+        $affected = $conn->affectedRows();
+
+        $conn->close();
+        return $affected > 0;
+    }
+
+    public function update(): bool {
+        $connection = new Connection();
+        $connection->open();
+
+        $dao = new WalkerDAO(
+            id: $this->id,
+            name: $this->name,
+            lastName: $this->lastName,
+            email: $this->email,
+            ratePerHour: $this->ratePerHour,
+            description: $this->description
+        );
+
+        $connection->query($dao->update());
+        $affected = $connection->affectedRows();
+        $connection->close();
+
+        return $affected > 0;
+    }
+
 
     public function getProfilePicture() {
-        return $this->profilePicture;
+        return $this->profilePicture ?: '/img/profilePicture.jpg';
     }
+
     public function isActive() {
         return $this->isActive;
     }

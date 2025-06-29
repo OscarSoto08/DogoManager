@@ -14,9 +14,12 @@
     <link href="https://use.fontawesome.com/releases/v6.7.2/css/all.css"
       rel="stylesheet">
     <link href="ui/home/style.css" rel="stylesheet">
+    <!-- Fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" ></script>
+    <!-- jQuery-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </head>
 <?php
 if (PHP_SESSION_NONE === session_status()) {
@@ -44,7 +47,17 @@ $no_auth_pages = [
 $auth_pages = [
   "ui/Admin/homepage.php",
   "ui/Owner/homepage.php",
+  "ui/Owner/chooseWalker.php",
   "ui/Walker/homepage.php",
+  "ui/Admin/searchWalkers.php",
+  "ui/Admin/createWalker.php",
+  "ui/Admin/viewAllWalkers.php",
+  "ui/Admin/editWalker.php",
+  "ui/Admin/editWalkerAjax.php",
+  "ui/Admin/viewBreeds.php",
+  "ui/Admin/editBreedAjax.php",
+  "ui/Admin/deactivateBreed.php",
+  "ui/Admin/createBreed.php",
 ];
 
 
@@ -65,6 +78,5 @@ if(empty($_GET["pid"])) {
   }
 }
 ?>
-  <!-- Bootstrap JS bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </html>

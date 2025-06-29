@@ -1,16 +1,3 @@
-<?php
-if($_SESSION["role"] != "Walker"){
-    header("Location: ?pid=". base64_encode("ui/failure/Forbidden403.php"));
-    exit();
-}
-$walker = new Walker($_SESSION["userID"]);
-$walker -> retrieve();
-if($_SERVER["REQUEST_METHOD"] === "GET"){
-    if(isset($_GET["session"]) && $_GET["session"] === "close"){
-        $walker -> logout();
-    }
-}
-?>
 <style>
 * {
     margin: 0;
@@ -30,26 +17,31 @@ body {
     padding: 1rem 2rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
     color: #42a5f5 !important;
 }
+
 .nav-link {
     color: #546e7a !important;
     font-weight: 500;
     transition: color 0.3s ease;
 }
+
 .nav-link:hover, .nav-link.active {
     color: #42a5f5 !important;
     background-color: #e3f2fd;
     border-radius: 10px;
 }
+
 .dropdown-menu {
     border-radius: 12px;
     border: none;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
+
 .dropdown-item:hover {
     background-color: #e3f2fd;
     color: #1976d2;
@@ -65,6 +57,7 @@ body {
     max-width: 500px;
     margin-top: 2rem;
 }
+
 .card-header {
     background: linear-gradient(135deg, #42a5f5, #64b5f6);
     color: white;
@@ -72,31 +65,28 @@ body {
     border-radius: 20px 20px 0 0;
     text-align: center;
 }
+
+.card-body {
+    text-align: center;
+}
+
 .card-title {
     color: #1976d2;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
+
 .card-text {
     color: #546e7a;
     font-size: 0.95rem;
 }
-.icon-muted {
-    color: #90a4ae;
-}
-.info-section p {
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-}
-.info-section strong {
-    color: #37474f;
-}
+
 </style>
 
-<body>
+
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="#">
+        <a class="navbar-brand" href="#">
             <i class="fa-solid fa-dog me-2"></i> DogoManager
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -106,25 +96,62 @@ body {
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <!-- Navegación -->
+            
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" href="#"><i class="fa-solid fa-house me-1"></i> Home</a></li>
+                <li class="nav-item">
+                <a class="nav-link active" href="?pid=<?= base64_encode("ui/Admin/homepage.php") ?>">
+                    <i class="fa-solid fa-house me-1"></i> Home
+                </a>
+                </li>
+
                 <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-chart-bar me-1"></i> View Stats</a></li>
                 <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-shoe-prints me-1"></i> View Walks</a></li>
+                <li class="nav-item"><a class="nav-link" href='?pid=<?= base64_encode("ui/Admin/viewBreeds.php") ?>'><i class="fa-solid fa-paw"></i> View Breeds</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user-tie me-1"></i> Walkers
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                          <a class="dropdown-item" 
+                            href="?pid=<?= base64_encode('ui/Admin/createWalker.php') ?>">
+                            <i class="fa-solid fa-user-plus me-1"></i> Add Walker
+                          </a>
+                        </li>
+
+                        <li>
+                        <a class="dropdown-item" href='?pid=<?= base64_encode("ui/Admin/searchWalkers.php") ?>'>
+                            <i class="fa-solid fa-search me-1"></i> Search Walker
+                        </a>
+                        </li>
+
+
+                        <li>
+                            <a class="dropdown-item" href='?pid=<?= base64_encode("ui/Admin/viewAllWalkers.php") ?>'>
+                                <i class="fa-solid fa-users me-1"></i> View All Walkers
+                            </a>
+                        </li>
+
+
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Other Options</a></li>
+                    </ul>
+                </li>
             </ul>
 
-            <!-- Perfil del Walker -->
+            
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-circle me-1"></i>
-                        Walker: <?= $walker->getName() . " " . $walker->getLastName(); ?>
+                        <i class="fa-solid fa-user-shield me-1"></i>
+                        Admin: <?= $admin->getName() . " " . $admin->getLastName(); ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                         <li>
-                            <form action="<?= "?pid=" . base64_encode("ui/Walker/homepage.php") ?>" method="POST" style="margin: 0;">
+                            <form action="<?= "?pid=" . base64_encode("ui/Admin/homepage.php") ?>" method="POST" style="margin: 0;">
                                 <button type="submit" class="dropdown-item" name="logout" style="border: none; background: none;">
                                     Log Out
                                 </button>
@@ -136,27 +163,3 @@ body {
         </div>
     </div>
 </nav>
-
-<!-- Contenido principal -->
-<div class="container d-flex justify-content-center">
-    <div class="card">
-        <div class="card-header">Walker Profile</div>
-        <div class="card-body text-center">
-            <h5 class="card-title">
-                <i class="fa-solid fa-dog me-2 text-primary"></i>
-                <?= $_SESSION["role"] . ": " . $walker->getName() . " " . $walker->getLastName(); ?>
-            </h5>
-            <p class="card-text">
-                <i class="fa-solid fa-envelope me-2 text-secondary"></i>
-                <?= $walker->getEmail(); ?>
-            </p>
-            <hr>
-            <div class="info-section mt-3 text-start">
-                <p><i class="fa-solid fa-dollar-sign me-2 text-warning"></i><strong>Rate:</strong> <?= number_format($walker->getRatePerHour(), 2); ?> / hour</p>
-                <p><i class="fa-solid fa-quote-left me-2 text-info"></i><strong>Description:</strong> <?= $walker->getDescription(); ?></p>
-                <p><i class="fa-solid fa-star me-2 text-warning"></i><strong>Rating Avg:</strong> <?= number_format($walker->getRatingAvg(), 2); ?></p>
-            </div>
-        </div>
-    </div>
-</div>
-</body>

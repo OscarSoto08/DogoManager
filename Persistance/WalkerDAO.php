@@ -35,4 +35,50 @@ class WalkerDAO{
     public function fetchAll(){
         return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg FROM Walker";
     }
+
+    public function fetchAllActive() {
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg 
+                FROM Walker
+                WHERE is_active = 1";
+    }
+
+    public function searchActive($filter) {
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg
+                FROM Walker
+                WHERE is_active = 1 AND (name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%')";
+    }
+
+    public function search($filter){
+        return "SELECT id, name, last_name, email, profile_picture, is_active, rate_per_hour, description, rating_avg
+                FROM Walker
+                WHERE name LIKE '%{$filter}%' OR last_name LIKE '%{$filter}%'";
+    }
+
+    public function updateStatus(){
+        return "
+        UPDATE Walker
+        SET is_active = '{$this->isActive}'
+        WHERE id = '{$this->id}'
+        ";
+    }
+
+public function update(): string {
+    return "UPDATE Walker SET
+                name          = '" . $this->name . "',
+                last_name     = '" . $this->lastName . "',   -- snake_case
+                email         = '" . $this->email . "',
+                rate_per_hour = "  . $this->ratePerHour . ", -- columna real
+                description   = '" . $this->description . "'
+            WHERE id = " . $this->id;
+}
+
+
+    public function getName() { return $this->name; }
+    public function getLastName() { return $this->lastName; }
+    public function getEmail() { return $this->email; }
+    public function getPassword() { return $this->password; }
+    public function getRatePerHour() { return $this->ratePerHour; }
+    public function getDescription() { return $this->description; }
+
+
 }
