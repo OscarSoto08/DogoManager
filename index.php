@@ -47,6 +47,7 @@ $no_auth_pages = [
 $auth_pages = [
   "ui/Admin/homepage.php",
   "ui/Owner/homepage.php",
+  "ui/Walker/invoicesWalker.php",
   "ui/Owner/chooseWalker.php",
   "ui/Walker/homepage.php",
   "ui/Walker/searchWalkers.php",
@@ -58,6 +59,9 @@ $auth_pages = [
   "ui/Breed/editBreedAjax.php",
   "ui/Breed/deactivateBreed.php",
   "ui/Breed/createBreed.php",
+  "ui/Owner/invoicesOwner.php",
+  "ui/Owner/invoicesDetails.php" 
+
 ];
 
 

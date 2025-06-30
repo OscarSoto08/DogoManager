@@ -91,6 +91,9 @@ require_once __DIR__ . '/navbarOwner.php';
                 case 'choose-walker':
                     window.location.href = "?pid=<?= base64_encode('ui/Owner/chooseWalker.php') ?>";
                     break;
+                case 'invoices':
+                    window.location.href = "?pid=<?= base64_encode('ui/Owner/invoicesOwner.php') ?>";
+                    break;
                 // ... other cases
                 default:
                     alert(`Navigating to ${section.replace('-', ' ')} section`);
