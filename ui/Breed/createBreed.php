@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
 
             <button type="submit" class="btn btn-primary">Add Breed</button>
-            <a href="?pid=<?= base64_encode("ui/Admin/viewBreeds.php") ?>" class="btn btn-secondary ms-2">Cancel</a>
+            <a href="?pid=<?= base64_encode("ui/Breed/viewBreeds.php") ?>" class="btn btn-secondary ms-2">Cancel</a>
           </form>
         </div>
       </div>

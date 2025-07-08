@@ -1,6 +1,7 @@
+
 <?php
 header('Content-Type: application/json');
-
+//toggle status
 // Calculate the project root directory
 $root = dirname(__DIR__, 2);
 

@@ -18,30 +18,62 @@ require_once "ui/Admin/navbarAdmin.php";
 ?>
 
 <script>
-$(document).on("click", ".btn-status", function () {
-  const $btn   = $(this);
-  const id     = $btn.data("id");
-  const active = $btn.data("active");          // 1 ó 0
-  const newVal = active ? 0 : 1;               // ← invertir aquí
-  const $badge = $btn.closest(".card-body").find(".badge");
+$(document).ready(function () {
+    let pendingWalkerBtn = null;
 
-  $.post("ui/Walker/toggleWalkerStatus.php", { id, isActive: newVal }, function (resp) {
-      if (resp.success) {
-          // Actualiza dataset para el próximo clic
-          $btn.data("active", newVal);
+    function showStatusMessage(message, type = 'success') {
+        const alertBox = $('#status-alert');
+        alertBox
+            .removeClass('d-none alert-success alert-danger')
+            .addClass('alert-' + (type === 'success' ? 'success' : 'danger'))
+            .text(message);
+        setTimeout(() => alertBox.addClass('d-none'), 2000);
+    }
 
-          // Cambia estilos y texto de botón/badge
-          $btn.toggleClass("btn-danger btn-success")
-              .text(newVal ? "Disable" : "Enable");
+    $(document).on("click", ".btn-status", function () {
+        pendingWalkerBtn = $(this);
+        const newVal = pendingWalkerBtn.data("active") ? 0 : 1;
+        const action = newVal ? "activate" : "disable";
+        $('#confirm-text').text(`Are you sure you want to ${action} this walker?`);
+        $('#custom-confirm').removeClass('d-none');
+    });
 
-          $badge.toggleClass("bg-success bg-secondary")
-                .text(newVal ? "Active" : "Inactive");
-      } else {
-          alert("Error toggling walker");
-      }
-  }, "json").fail(() => alert("AJAX error"));
+    $(document).on("click", "#confirm-no", function () {
+        $('#custom-confirm').addClass('d-none');
+        pendingWalkerBtn = null;
+    });
+
+    $(document).on("click", "#confirm-yes", function () {
+        if (!pendingWalkerBtn) return;
+
+        const $btn   = pendingWalkerBtn;
+        const id     = $btn.data("id");
+        const active = $btn.data("active");
+        const newVal = active ? 0 : 1;
+        const $badge = $btn.closest(".card-body").find(".badge");
+
+        $.post("ui/Walker/toggleWalkerStatus.php", { id, isActive: newVal }, function (resp) {
+            if (resp.success) {
+                $btn.data("active", newVal)
+                    .toggleClass("btn-danger btn-success")
+                    .text(newVal ? "Disable" : "Enable");
+
+                $badge.toggleClass("bg-success bg-secondary")
+                      .text(newVal ? "Active" : "Inactive");
+
+                showStatusMessage("Walker status updated successfully.");
+            } else {
+                showStatusMessage("Could not change status.", 'error');
+            }
+        }, "json").fail(() => showStatusMessage("AJAX error", 'error'));
+
+        $('#custom-confirm').addClass('d-none');
+        pendingWalkerBtn = null;
+    });
 });
 </script>
+
+
 
 
 <section id="admin-walkers" class="mt-5">
@@ -101,3 +133,16 @@ $(document).on("click", ".btn-status", function () {
   <?php endforeach; ?>
   </div>
 </section>
+
+<!-- Custom confirmation box -->
+<div id="custom-confirm" class="alert alert-warning d-none position-fixed top-50 start-50 translate-middle shadow" style="z-index: 9999; width: 300px;">
+  <p id="confirm-text" class="mb-3">Are you sure?</p>
+  <div class="d-flex justify-content-end gap-2">
+    <button id="confirm-yes" class="btn btn-sm btn-primary">Yes</button>
+    <button id="confirm-no" class="btn btn-sm btn-secondary">Cancel</button>
+  </div>
+</div>
+
+<!-- Feedback alert -->
+<div id="status-alert" class="alert d-none position-fixed bottom-0 end-0 m-4" role="alert"></div>
+

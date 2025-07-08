@@ -36,12 +36,13 @@ if (isset($_GET["filter"])) {
 
             // Action column with button
             echo "<td>
-                    <button
-                      class='btn btn-sm btn-status {$btnClass}'
-                      data-id='{$w->getId()}'
-                      data-active='{$active}'>
-                      {$btnLabel}
-                    </button>
+              <button
+                type='button'
+                class='btn btn-sm btn-status {$btnClass}'
+                data-id='{$w->getId()}'
+                data-active='{$active}'>
+                {$btnLabel}
+              </button>
                   </td>";
             echo "</tr>";
         }

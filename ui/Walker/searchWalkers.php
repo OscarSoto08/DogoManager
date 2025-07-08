@@ -1,21 +1,21 @@
 <?php
-if($_SESSION["role"] != "Admin"){
+if ($_SESSION["role"] != "Admin") {
     header("Location: ?pid=" . base64_encode("ui/failure/Forbidden403.php"));
     exit();
 }
 $admin = new Admin($_SESSION["userID"]);
-$admin -> retrieve();
+$admin->retrieve();
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    if(isset($_POST["logout"])){
-        $admin -> logout();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["logout"])) {
+        $admin->logout();
     }
 }
 ?>
+
 <body>
-<?php 
-require_once "ui/Admin/navbarAdmin.php";
-?>
+<?php require_once "ui/Admin/navbarAdmin.php"; ?>
+
 <div class="container-fluid mt-4">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
@@ -37,28 +37,34 @@ require_once "ui/Admin/navbarAdmin.php";
   </div>
 </div>
 
+<!-- Alert for messages -->
+<div id="status-alert" class="alert d-none mt-3" role="alert"></div>
 
-<div id="status-alert" class="alert d-none" role="alert"></div>
+<!-- Custom confirmation box -->
+<div id="custom-confirm" class="alert alert-warning d-none position-fixed top-50 start-50 translate-middle shadow" style="z-index: 9999; width: 300px;">
+  <p id="confirm-text" class="mb-3">Are you sure?</p>
+  <div class="d-flex justify-content-end gap-2">
+    <button id="confirm-yes" class="btn btn-sm btn-primary">Yes</button>
+    <button id="confirm-no" class="btn btn-sm btn-secondary">Cancel</button>
+  </div>
+</div>
 
 <script>
-// ========= 1. Bootstrap-style alert for feedback messages =========
 function showStatusMessage(message, type = 'success') {
     const alertBox = $('#status-alert');
     alertBox
-        .removeClass('d-none alert-success alert-danger')              // reset alert styles
-        .addClass('alert-' + (type === 'success' ? 'success' : 'danger')) // apply success or error style
-        .text(message);                                               // set message text
-
+        .removeClass('d-none alert-success alert-danger')
+        .addClass('alert-' + (type === 'success' ? 'success' : 'danger'))
+        .text(message);
     setTimeout(() => {
-        alertBox.addClass('d-none');                                  // auto-hide after 2 seconds
+        alertBox.addClass('d-none');
     }, 2000);
 }
 
-// ========= 2. Global variable to store the clicked button =========
 let pendingWalkerBtn = null;
 
 $(document).ready(function () {
-    // ========= 3. AJAX search on input keyup =========
+    // Search input keyup
     $('#filter').keyup(function () {
         if ($(this).val().length > 2) {
             const filter = encodeURIComponent($(this).val());
@@ -66,97 +72,60 @@ $(document).ready(function () {
         }
     });
 
-    // ========= 4. When clicking the status toggle button =========
+    // Click on status button
     $(document).on('click', '.btn-status', function () {
-        pendingWalkerBtn = $(this);                                  // store button reference
-        const newActive = pendingWalkerBtn.data('active') ? 0 : 1;   // determine the next state
-        const actionTxt = newActive ? 'activate' : 'desactivate';     // text for confirmation
+        pendingWalkerBtn = $(this);
+        const newActive = pendingWalkerBtn.data('active') ? 0 : 1;
+        const actionTxt = newActive ? 'activate' : 'disable';
 
-        // Set modal confirmation message
-        $('#confirmModal .modal-body')
-            .text(`Are you sure you want to ${actionTxt} this walker?`);
-
-        // Show the confirmation modal
-        const confirmModal = new bootstrap.Modal(
-            document.getElementById('confirmModal')
-        );
-        confirmModal.show();
+        $('#confirm-text').text(`Are you sure you want to ${actionTxt} this walker?`);
+        $('#custom-confirm').removeClass('d-none');
     });
 
-    // ========= 5. When user confirms status change from modal =========
-    $('#confirmChangeBtn').on('click', function () {
-        if (!pendingWalkerBtn) return;  // safety check
+    // Cancel button in confirmation
+    $('#confirm-no').on('click', function () {
+        $('#custom-confirm').addClass('d-none');
+        pendingWalkerBtn = null;
+    });
 
-        const btn           = pendingWalkerBtn;
-        const walkerId      = btn.data('id');
+    // Confirm button
+    $('#confirm-yes').on('click', function () {
+        if (!pendingWalkerBtn) return;
+
+        const btn = pendingWalkerBtn;
+        const walkerId = btn.data('id');
         const currentActive = btn.data('active');
-        const newActive     = currentActive ? 0 : 1;
+        const newActive = currentActive ? 0 : 1;
 
-        // AJAX request to toggle walker status
         $.ajax({
-            url:    'ui/Admin/toggleWalkerStatus.php',
+            url: 'ui/Walker/toggleWalkerStatus.php',
             method: 'POST',
-            data:   { id: walkerId, isActive: newActive },
+            data: { id: walkerId, isActive: newActive },
             dataType: 'json'
         })
         .done(function (res) {
             if (res.success) {
-                // 1. Update button label, style, and data
                 btn.data('active', newActive)
                    .text(newActive ? 'Disable' : 'Enable')
                    .toggleClass('btn-success btn-danger');
 
-                // 2. Update the "Status" column (6th column, index 5)
                 const statusCell = btn.closest('tr').find('td:eq(5)');
                 const statusText = newActive ? 'Active' : 'Inactive';
                 const badgeClass = newActive ? 'bg-success' : 'bg-secondary';
                 statusCell.html(`<span class="badge ${badgeClass}">${statusText}</span>`);
 
-                // 3. Show success alert
                 showStatusMessage('Walker status updated successfully.', 'success');
             } else {
-                // Show logical/server error
                 showStatusMessage('Could not change walker status.', 'error');
             }
         })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            // AJAX/network error
-            console.error('AJAX Error:', textStatus, errorThrown);
+        .fail(function () {
             showStatusMessage('Server connection failed.', 'error');
         });
 
-        // Hide the confirmation modal
-        bootstrap.Modal.getInstance(
-            document.getElementById('confirmModal')
-        ).hide();
-
-        // Reset the stored button
+        $('#custom-confirm').addClass('d-none');
         pendingWalkerBtn = null;
     });
 });
 </script>
-
-
-
-<!-- Modal for confirming status change -->
-<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmModalLabel">Confirm Status Change</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to change the walker's status?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button id="confirmChangeBtn" type="button" class="btn btn-primary">Confirm</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="status-alert" class="alert d-none" role="alert"></div>
-
 </body>
